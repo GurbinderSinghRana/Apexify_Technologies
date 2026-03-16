@@ -9,69 +9,98 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     />
     <style>
-        body{background: #c9bfbf;}
-        .red{background:#305ef6;}
+      body {
+        background: #c9bfbf;
+      }
+      .blue {
+        background: #305ef6;
+      }
       .container {
         height: 100vh;
         display: flex;
         justify-content: center;
-        align-items: center;}
+        align-items: center;
+      }
       .calculator {
         height: 440px;
         width: 300px;
-        background: #111F35;
+        background: #111f35;
         border-radius: 20px;
-        box-shadow: 2px 2px 15px black;}
-      .display {
+        box-shadow: 2px 2px 15px black;
+      }
+      .display{
         height: 80px;
         width: 90%;
-        margin: 14px;
+        margin: 15px;
         border-radius: 20px;
+        background: #111f35;
+        border-style: none;
         box-shadow: 2px 2px 15px black;
         color: #cecece;
         text-align: right;
-        font-size: 70px;}
-      .buttons{
+        font-size: 50px;
+        box-sizing: border-box;
+        padding-top: 12px;
+        padding-right: 10px;
+        white-space: nowrap;
+        overflow: auto;
+      }
+      .buttons {
         display: grid;
         grid-template-columns: auto auto auto auto;
         gap: 10px;
         padding: 10px;
-        margin-left: 10px;}
-      button{
+        margin-left: 10px;
+      }
+      button {
         height: 50px;
         width: 50px;
         font-size: 20px;
         color: #fff;
         border-style: none;
         border-radius: 30px;
-        background:#111F35;
-        box-shadow: 2px 2px 15px black;}
-        .numbers:hover{background: #1c3a67;}
-        .operator:hover{background:#1739aa;}
-        .enter{background:#43be36;}.enter:hover{background:#2c7f23;}
+        background: #111f35;
+        box-shadow: 2px 2px 15px black;
+      }
+      .numbers:hover {
+        background: #1c3a67;
+      }
+      .operator:hover {
+        background: #1739aa;
+      }
+      .enter {
+        background: #43be36;
+      }
+      .enter:hover {
+        background: #2c7f23;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="calculator">
-        <div class="display">1</div>
+        <div class="display">
+0
+        </div>
         <div class="buttons">
-          <button class="red operator">AC</button>
-          <button class="red operator">%</button>
-          <button class="red operator">/</button>
-          <button class="red operator"><i class="fa-solid fa-delete-left"></i></button>
+          <button class="blue operator ac">AC</button>
+          <button class="blue operator">%</button>
+          <button class="blue operator">/</button>
+          <button class="blue operator">
+            <i class="fa-solid fa-delete-left del"></i>
+          </button>
           <button class="numbers">7</button>
           <button class="numbers">8</button>
           <button class="numbers">9</button>
-          <button class="red operator">X</button>
+          <button class="blue operator">x</button>
           <button class="numbers">4</button>
           <button class="numbers">5</button>
           <button class="numbers">6</button>
-          <button class="red operator">+</button>
+          <button class="blue operator">+</button>
           <button class="numbers">1</button>
           <button class="numbers">2</button>
           <button class="numbers">3</button>
-          <button class="red operator">-</button>
+          <button class="blue operator">-</button>
           <button class="numbers">0</button>
           <button class="numbers">00</button>
           <button>.</button>
@@ -79,13 +108,101 @@
         </div>
       </div>
     </div>
+
     <script>
-        const display = document.querySelectorAll('display') 
-        const number = document.querySelectorAll("numbers");\
-        number.addEventListener('click',(e)=>{
-        display.innerhtml = number;
-        })
+
+const screen = document.querySelector('.display');
+const allButtons = document.querySelectorAll('button');
+let memory = "";
+
+//---Function to listen every click----
+allButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.blur();
+    const choice = btn.innerText;
+
+    // --- CASE A:(AC) ---
+    if (choice === "AC") {
+      memory = "";
+      screen.innerText = "0";
+    } 
+
+    // --- CASE B: The "Oops" (Delete Icon) ---
+    // We check if the button has that delete icon inside it
+    else if (btn.innerHTML.includes('fa-delete-left')) {
+      memory = memory.slice(0, -1); // Remove the last character
+      screen.innerText = memory || "0";
+    } 
+
+    // --- CASE C: The "Result" (=) ---
+    else if (choice === "=") {
+      try {
+        // 1. It use memory, NOT screen.innerHTML
+        // 2. Replace 'x' with '*' so math works
+        let mathProblem = memory.replace(/x/g, '*'); 
         
+        let answer = eval(mathProblem);
+        
+        screen.innerText = answer;
+        memory = answer.toString(); // Update memory with the result
+      } catch (error) {
+        screen.innerText = "Error";
+        memory = "";
+      }
+    }
+
+    // --- CASE D: Just typing numbers or symbols ---
+    else {
+      // Don't let the user start with "00"
+      if (memory === "" && (choice === "0" || choice === "00")) return;
+    
+      memory += choice;
+      screen.innerText = memory;
+    }
+  });
+});
+
+// Listen for keys being pressed on our physical keyboard
+window.addEventListener('keydown', (event) => {
+  const key = event.key; // This captures exactly what you typed
+
+  // 1. If it's a number or a basic math symbol
+  if ((key >= '0' && key <= '9') || ['+', '-', '*', '/', '.', '%'].includes(key)) {
+    // If screen is "0", replace it. Otherwise, add to it.
+    if (memory === "0") {
+      memory = key;
+    } else {
+      memory += key;
+    }
+    screen.innerText = memory;
+  }
+
+  // 2. If you hit 'Enter', calculate the answer
+  if (key === 'Enter') {
+    try {
+      // We use our same math logic from the "=" button
+      let result = eval(memory.replace(/x/g, '*').replace(/%/g, '/100'));
+      screen.innerText = result;
+      memory = result.toString();
+    } catch {
+      screen.innerText = "Error";
+      memory = "";
+    }
+  }
+
+  // 3. If you hit 'Backspace', delete the last character
+  if (key === 'Backspace') {
+    memory = memory.slice(0, -1);
+    screen.innerText = memory || "0";
+  }
+
+  // 4. If you hit 'Escape', clear everything (AC)
+  if (key === 'Escape') {
+    memory = "";
+    screen.innerText = "0";
+  }
+});
     </script>
   </body>
 </html>
+
