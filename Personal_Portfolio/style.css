@@ -1,0 +1,116 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #020617;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(75deg,#1e40af,#e42ff1);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        header img{
+            height: 230px;
+            width: 230px;
+            border-radius: 150px;
+            background: #c7c7c7;
+        }
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            padding: 60px 10%;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #60a5fa;
+        }
+
+        .about p {
+            max-width: 800px;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-box {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .skill-box:hover {
+            transform: translatey(-8px);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .project-card h3 {
+            color: #93c5fd;
+            margin-bottom: 10px;
+        }
+
+        .project-card a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        footer {
+            background: #020617;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
