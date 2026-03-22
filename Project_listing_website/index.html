@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Solo Showcase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <button class="nav-btn left-btn" onclick="changeProduct(-1)">&#10094;</button>
+    <button class="nav-btn right-btn" onclick="changeProduct(1)">&#10095;</button>
+
+    <div class="app-container">
+    <button class="nav-btn left-btn" onclick="changeProduct(-1)">&#10094;</button>
+    <button class="nav-btn right-btn" onclick="changeProduct(1)">&#10095;</button>
+
+    <div class="main-wrapper">
+        <div class="category-scroll-container">
+            <button class="tab active" onclick="setCategory('Electronics', this)">Electronics</button>
+            <button class="tab" onclick="setCategory('Furniture', this)">Furniture</button>
+            <button class="tab" onclick="setCategory('Clothing', this)">Clothing</button>
+            <button class="tab" onclick="setCategory('Groceries', this)">Groceries</button>
+        </div>
+
+        <div id="product-display">
+            </div>
+
+        <p id="counter" class="count-label"></p>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
